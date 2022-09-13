@@ -22,9 +22,8 @@ console.log(props.user);
         <Container>
             <Section>
                 <Signinusersection>
-                 
                     <User_Page>
-                    <CardBackground/>
+                       <CardBackground/>
                            <UserInfo>
                                 <UserNameDisplay>
                                 Welcome <br/> {props.user ? props.user.User.email : "user" }  
@@ -32,16 +31,16 @@ console.log(props.user);
                             </UserInfo>
 
                             <Sharebox  onClick={redirectUser}>
-                               {props.user ? props.user.User.userType !== process.env.REACT_APP_USERTYPE ? "Add a post Section" : "Video call section" : "Video call section"} 
+                               {props.user ? props.user.User.usertype !== process.env.REACT_APP_USERTYPE ? "Add a post Section" : "Video call section" : "Video call section"} 
                                 <div>
-                                {props.user ?  <img src={props.user.photoURL} alt=""/> : <img src="images/user.svg" alt=""/>}
-                                <button> 
-                                {props.user ? props.user.User.userType !== process.env.REACT_APP_USERTYPE ? "Start a post" : "Start video call" : "Start video call"}
+                                    {props.user ?  <img src={props.user.photoURL} alt=""/> : <img src="images/user.svg" alt=""/>}
+                                    <button> 
+                                        {props.user ? props.user.User.usertype !== process.env.REACT_APP_USERTYPE ? "Start a post" : "Start video call" : "Start video call"}
                                     </button>
-                              </div>
+                                </div>
                             </Sharebox>
-                    </User_Page>
-                </Signinusersection>
+                     </User_Page>
+                 </Signinusersection>
 
                 <Signinuserrightsection>
                 

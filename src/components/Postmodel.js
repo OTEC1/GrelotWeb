@@ -31,12 +31,7 @@ const bucket = new AWS.S3({
 
 
 
-
-
-
-
 const Postmodel = (props) => {
-
     useEffect(() =>{
         axios.get(process.env.REACT_APP_ACCESS_FIREBASE_ENDPOINT3)
               .then(res => {
@@ -181,49 +176,18 @@ const Postmodel = (props) => {
             price: file3,
             title: file4,
             description: file5,
-            timestamp: Date.now(),
             productgender: gender,
             productaudience: catselect,
             productID: uuid4(),
 
         };
-
         props.PostData(payload);
-       
-
      }
 
     
 
 
-     const SEND_TO_S3 = (args,data, section) => {
-      
-          const   params = {
-                ACL: process.env.REACT_APP_READ_RULE,
-                Body: data,
-                Bucket: process.env.REACT_APP_S3_BUCKET,
-                Key: section == 1 ? process.env.REACT_APP_S3_PICTURE_SECTION+args.trim() : process.env.REACT_APP_S3_VIDEO_SECTION+args.toString().replace("png","mp4").trim()
-            };
-    
-
-        bucket.putObject(params)
-                .on('httpUploadProgress', (e) => {
-                        setProgress(Math.round((e.loaded / e.total) * 100));
-                })
-                .on('httpDone',(e)=>{
-                    swal.fire({text:"Ads has been submitted ",
-                              icon: 'success'})
-                })
-                .send((err) => {
-                    if(err) {
-                        alert("Snap error occurred");
-                        setProgress(0);
-                        console.log(err);
-                    }
-                });  
-     }
-
-
+   
      function datatoBlob(dataurl){
          let array, binary,i,len;
          binary = atob(dataurl.split(',')[1]);
@@ -241,9 +205,8 @@ const Postmodel = (props) => {
 
 
      const SEND_THUMBNAIL =  (args,data, section)  => {
-       
         if(args.length > 0){
-         let file = args.toString().replace(".mp4",".png");
+           let file = args.toString().replace(".mp4",".png");
              const canvas = document.createElement("canvas");
              canvas.width = videoElem.current.videoWidth;
              canvas.height = videoElem.current.videoHeight;
@@ -289,10 +252,42 @@ const Postmodel = (props) => {
 
 
 
-    const sendInvite = (area) => {
 
-     
-    };
+
+    const SEND_TO_S3 = (args,data, section) => {
+      
+        const   params = {
+              ACL: process.env.REACT_APP_READ_RULE,
+              Body: data,
+              Bucket: process.env.REACT_APP_S3_BUCKET,
+              Key: section == 1 ? process.env.REACT_APP_S3_PICTURE_SECTION+args.trim() : process.env.REACT_APP_S3_VIDEO_SECTION+args.toString().replace("png","mp4").trim()
+          };
+  
+
+      bucket.putObject(params)
+              .on('httpUploadProgress', (e) => {
+                      setProgress(Math.round((e.loaded / e.total) * 100));
+              })
+              .on('httpDone',(e)=>{
+                  swal.fire({text:"Ads has been submitted ",icon: 'success'});
+                  CLOUD(section == 1 ? process.env.REACT_APP_S3_PICTURE_SECTION+args.trim() : process.env.REACT_APP_S3_VIDEO_SECTION+args.toString().replace("png","mp4").trim())
+              })
+              .send((err) => {
+                  if(err) {
+                      alert("Snap error occurred");
+                      setProgress(0);
+                      console.log(err);
+                  }
+              });  
+   }
+
+
+
+    const CLOUD = async (url)  => {
+        let map = await axios.post(process.env.REACT_APP_CLOUDINARY,{url:process.env.REACT_APP_APP_S3_BASE_MEDIA_URL+url,publicface:process.env.REACT_APP_APP_NAME+props.user.User.userType+props.user.User.businessName+"/"+url.substring(url.indexOf("/")+1)})
+            console.log(map.data.message);
+    }
+
 
 
     const reset =  (e) => {
@@ -304,8 +299,14 @@ const Postmodel = (props) => {
         setProgress(0);
         props.sendRequestToModel(e);
     };
-   
 
+
+
+
+    const sendInvite = (area) => {
+
+     
+    };
 
 
     

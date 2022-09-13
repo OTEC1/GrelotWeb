@@ -21,7 +21,7 @@ const Register = (props) => {
  const [businessname, setBusinessname] = useState('');
  const [businessaddress, setbusinesaddress] = useState('');
  const [click, setclick] = useState(false);
-
+ 
 
  const loop = () => {
    setnofity(prev => prev+1);

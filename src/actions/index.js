@@ -40,11 +40,11 @@ export function signInAPIGoogle(usertype){
                           if(response.status === 200){
                                 if(JSON.stringify(response.data.message).length !== 2){
                                     let user = {User:{
-                                        businessName:response.data.message.User.businessname,
-                                        bussinessAddress:response.data.message.User.businessaddress,
+                                        businessname:response.data.message.User.businessname,
+                                        bussinessaddress:response.data.message.User.businessaddress,
                                         email:response.data.message.User.email,
-                                        userType:response.data.message.User.usertype,
-                                        whatappNumber:response.data.message.User.whatappnumber,
+                                        usertype:response.data.message.User.usertype,
+                                        whatappnumber:response.data.message.User.whatappnumber,
                                         img_url:response.data.message.User.img_url,
                                         user_id:response.data.message.User.doc_id
                                     }}
@@ -98,8 +98,6 @@ export function routernewuser(payload){
     payload.User.password = document.getElementById('confirmpassword').value;
         axios.post(process.env.REACT_APP_ADD_USER,payload)
             .then(res => {
-                    console.log(res.data.message);
-
                     if(res.data.message === "Account created"){
                         Swal.fire({title:'info',text:res.data.message, icon:'info'});
                             window.location.assign("/userlogin");
@@ -134,33 +132,29 @@ export function  addtocart(cart){
 
 
 export function  postArticleAPI(payload){
-    let id = uuid4()+Date.now();
      return async (dispatch) => {
-        const ref = collection(db,process.env.REACT_APP_ACCESS_FIREBASE_TABLE1+"/"+payload.user.User.userType)
-           await setDoc(doc(ref, id),
-                    {User:{
-                        businessName: payload.user.User.businessName,
-                        bussinessAddress: payload.user.User.bussinessAddress,
-                        email: payload.user.User.email,
-                        userType: payload.user.User.userType,
-                        whatappNumber: payload.user.User.whatappNumber,
-                        img_url: payload.user.User.img_url,
-                        user_id:payload.user.User.user_id
-                    },
-                    UserPost:{
-                        doc_id: id,    
-                        video: payload.video,
-                        image: payload.image,
-                        price: payload.price,
-                        title:payload.title,
-                        description: payload.description,
-                        targeted_audience: payload.productgender,
-                        category: payload.productaudience,
-                        exif:0,
-                        productid: payload.productID,
-                        timestamp: payload.timestamp,
-                    },
-            })     
+       let response = await axios.post(process.env.REACT_APP_POST_UPLOAD_ENDPOINT,{User:{
+                                    businessName: payload.user.User.businessname,
+                                    bussinessAddress: payload.user.User.bussinessaddress,
+                                    email: payload.user.User.email,
+                                    userType: payload.user.User.usertype,
+                                    whatappNumber: payload.user.User.whatappnumber,
+                                    img_url: payload.user.User.img_url,
+                                    user_id:payload.user.User.user_id
+                                },
+                                UserPost:{ 
+                                    video: payload.video,
+                                    image: payload.image,
+                                    price: payload.price,
+                                    title:payload.title,
+                                    description: payload.description,
+                                    targeted_audience: payload.productgender,
+                                    category: payload.productaudience,
+                                    exif:0,
+                                    productid: payload.productID,
+                                },
+                });  
+             console.log(response.data.message);   
          };
 }
 
@@ -177,8 +171,6 @@ export function getPosting(user_email){
             }
 }   
     
-
-
 
 
 async function LoadPage(usertype) {

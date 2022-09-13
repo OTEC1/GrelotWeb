@@ -67,7 +67,7 @@ function App(props){
           </Route>
 
 
-          <Route  path="/itemselected/:e/:option" component={<Itemselected/>}>
+          <Route  path="/itemselected/:e/:u/:m" component={<Itemselected/>}>
              <Header/>
              <Ads/>
              <Itemselected/>

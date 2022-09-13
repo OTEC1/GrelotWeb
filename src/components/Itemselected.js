@@ -10,11 +10,11 @@ require('dotenv').config()
 const Itemselected = (props) => {
 
 const [datas, setDatas] = useState([]);
-const  {e,option} = useParams();
+const  {e,u,m} = useParams();
 
 
 useEffect(() => {
-    axios.post(process.env.REACT_APP_ACCESS_FIREBASE_ENDPOINT1,{data:e})
+    axios.post(process.env.REACT_APP_ACCESS_FIREBASE_ENDPOINT1,{data:e,usertype:u})
     .then(response => {
         setDatas(response.data);
     }).catch(err => {
@@ -25,7 +25,7 @@ useEffect(() => {
 },[])
 
     return(
-       <Item  dataPass={datas} id={e} model={option} />
+       <Item  dataPass={datas} id={e} model={m} />
     )
 }
 

@@ -47,18 +47,12 @@ const Main = (props) =>{
         }
    
 
-        const  itemselected =  (e,model)  => {
-            history.push('/itemselected/'+e+"/"+model);
+        const  itemselected =  (e,u,m)  => {
+            history.push('/itemselected/'+e+"/"+u+"/"+m);
         } 
 
 
       
-
-  
-    
-
-    
-   
     return (<Container>
         <ArtCard>
            <MiddleMan>
@@ -79,12 +73,12 @@ const Main = (props) =>{
                                     </div>
 
                                     <div  id="post_bottom_section">
-                                            <Favorite onClick={() => itemselected(e.UserPost.doc_id,"P")}>
+                                            <Favorite onClick={() => itemselected(e.UserPost.doc_id,e.User.usertype,"P")}>
                                             <FontAwesomeIcon icon={faCartPlus} id="heart"/>
                                             </Favorite>
                                     </div>
 
-                                    <img onClick={() => itemselected(e.UserPost.doc_id,"P")}
+                                    <img onClick={() => itemselected(e.UserPost.doc_id,e.User.usertype,"P")}
                                         key={index} 
                                         src={process.env.REACT_APP_APP_S3_IMAGE_BUCKET+e.UserPost.image}
                                         ref={imageholder} />
@@ -104,7 +98,7 @@ const Main = (props) =>{
                             
 
                                 <div  id="post_bottom_section">
-                                        <Favorite onClick={() => itemselected(e.UserPost.doc_id,"V")}>
+                                        <Favorite onClick={() => itemselected(e.UserPost.doc_id,e.User.usertype,"V")}>
                                         <FontAwesomeIcon icon={faCartPlus} id="heart"/>
                                         </Favorite>
                                 </div>

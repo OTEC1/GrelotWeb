@@ -35,15 +35,15 @@ return <Container>
                             <Main  leftdata={L1}/>
                             <Rightside rightdata={L2}/>
                         </Layout>
-                    ) : (<p>
+                      ) : (<p>
                         <Loader
                             type="Oval"
                             color="#FF5D16"
                             height={100}
                             width={100} 
                         />
-                    </p>)  
-
+                      </p>)  
+                      
                     : <h3>Loading... </h3> 
                     }
                 </>
